@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 const listMotoSchema = mongoose.Schema([
   {
     marque: String,
-    millesime: Number,
-    cylindree: Number,
+    millesime: String,
+    cylindree: String,
     modele: String,
   },
 ]);

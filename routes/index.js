@@ -7,8 +7,49 @@ router.get("/getMoto", function (req, res) {
     if (data === null) {
       res.json({ result: false, error: "Problème" });
     } else {
-      console.log(data);
-      res.json({result:true, listMoto:data})
+      res.json({ listMoto: data });
+    }
+  });
+});
+
+router.post("/marques", function (req, res) {
+  ListMoto.find({
+    marque: req.body.marque,
+    // cylindree: req.body.cylindree,
+    // millesime: req.body.millesime,
+  }).then((data) => {
+    if (!data) {
+      res.json({ result: false, error: "Problème" });
+    } else {
+      res.json({ listMarques: data });
+      // console.log('DATA=>',data);
+    }
+  });
+});
+router.post("/findMyBike", function (req, res) {
+  ListMoto.find({
+    marque: req.body.marque,
+    millesime: req.body.millesime,
+    cylindree: req.body.cylindree,
+  }).then((data) => {
+    if (!data) {
+      res.json({ result: false, error: "Problème" });
+    } else {
+      res.json({ maMoto: data });
+    }
+  });
+});
+
+router.post("/millesime", function (req, res) {
+  ListMoto.find({
+    marque: req.body.marque,
+    millesime: 2016,
+  }).then((data) => {
+    console.log(data);
+    if (data === null) {
+      res.json({ result: false, error: "Problème" });
+    } else {
+      res.json(data);
     }
   });
 });
