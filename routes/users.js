@@ -31,7 +31,40 @@ router.post("/signIn", function (req, res) {
     if (bcrypt.compareSync(req.body.password, data.password)) {
       res.json({ result: true, username: data.username, token: data.token });
     } else {
-      res.json({result:false, error:'User not found or wrong password'})
+      res.json({ result: false, error: "User not found or wrong password" });
+    }
+  });
+});
+
+router.post("/postMyBike", function (req, res) {
+  User.findOne({ token: req.body.token }).then((data) => {
+    if (data) {
+      if (req.body.marque) {
+        User.findOneAndUpdate(
+          { token: req.body.token },
+          {
+            moto: [
+              {
+                marque: req.body.marque,
+                millesime: req.body.millesime,
+                cylindree: req.body.cylindree,
+                modele: req.body.modele,
+              },
+            ],
+          }
+        ).then();
+      } else {
+        res.json({ result: false, error: "marque not found" });
+      }
+      // if (req.body.millesime) {
+      //   User.findOneAndUpdate({token:req.body.token}, {moto:[{millesime:req.body.millesime}]})
+      //   .then();
+      // } else {
+      //   res.json({result:false, error:'millesime not found'})
+      // }
+      res.json({ result: true });
+    } else {
+      res.json({ result: false, error: "Token not found" });
     }
   });
 });
