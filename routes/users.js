@@ -36,6 +36,17 @@ router.post("/signIn", function (req, res) {
   });
 });
 
+router.post('/findUserInfo', function (req, res) {
+  User.findOne({token:req.body.token}).then((data) => {
+    if (data) {
+      res.json({result: true, data:data})
+
+    } else {
+      res.json({result: false, error:'No token'})
+    }
+  })
+})
+
 router.post("/postMyBike", function (req, res) {
   User.findOne({ token: req.body.token }).then((data) => {
     if (data) {
@@ -68,5 +79,15 @@ router.post("/postMyBike", function (req, res) {
     }
   });
 });
+
+router.post("/maMoto", function (req, res)  {
+  User.findOne({token:req.body.token}).then((data)=> {
+    if(data) {
+      res.json({result:true, maMoto:data.moto})
+    } else {
+      res.json({result:false, error:'Token not found'})
+    }
+  })
+})
 
 module.exports = router;
