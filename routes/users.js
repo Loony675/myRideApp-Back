@@ -67,12 +67,6 @@ router.post("/postMyBike", function (req, res) {
       } else {
         res.json({ result: false, error: "marque not found" });
       }
-      // if (req.body.millesime) {
-      //   User.findOneAndUpdate({token:req.body.token}, {moto:[{millesime:req.body.millesime}]})
-      //   .then();
-      // } else {
-      //   res.json({result:false, error:'millesime not found'})
-      // }
       res.json({ result: true });
     } else {
       res.json({ result: false, error: "Token not found" });
@@ -89,5 +83,26 @@ router.post("/maMoto", function (req, res)  {
     }
   })
 })
+router.post("/mesInfos", function (req, res) {
+  User.findOne({ token: req.body.token }).then((data) => {
+    if (data) {
+        User.findOneAndUpdate(
+          { token: req.body.token },
+          {
+            userInfos: [
+              {
+                firstname: req.body.firstname,
+                lastname: req.body.lastname,
+                age: req.body.age,
+              },
+            ],
+          }
+        ).then();
+      res.json({ result: true });
+    } else {
+      res.json({ result: false, error: "Token not found" });
+    }
+  });
+});
 
 module.exports = router;
